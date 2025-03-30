@@ -37,9 +37,9 @@ services:
     restart: on-failure
 
   config-server:
-    image: wdd1016/config
+    image: r12dh16/config  # 이미지 이름을 자신의 계정으로 변경
     build:
-      context: https://github.com/Team4-Kitcha/Kitcha-BE.git
+      context: https://github.com/LGCoreNova/Kitcha-BE.git#feat-cloudbus  # 브랜치 지정
       dockerfile: Config-server/Dockerfile
     container_name: config-server
     networks:
@@ -55,11 +55,13 @@ services:
       mysql:
         condition: service_started
     restart: on-failure
-
+    environment:
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka:8761/eureka/
+    
   eureka:
-    image: wdd1016/eureka
+    image: r12dh16/eureka  # 이미지 이름을 자신의 계정으로 변경
     build:
-      context: https://github.com/Team4-Kitcha/Kitcha-BE.git
+      context: https://github.com/LGCoreNova/Kitcha-BE.git#feat-cloudbus  # 브랜치 지정
       dockerfile: eureka/Dockerfile
     container_name: eureka
     networks:
@@ -77,13 +79,14 @@ services:
     restart: on-failure
 
   gateway-server:
-    image: wdd1016/gateway
+    image: r12dh16/gateway  # 이미지 이름을 자신의 계정으로 변경
     build:
-      context: https://github.com/Team4-Kitcha/Kitcha-BE.git
+      context: https://github.com/LGCoreNova/Kitcha-BE.git#feat-cloudbus  # 브랜치 지정
       dockerfile: API-Gateway/Dockerfile
     environment:
       TOKEN_SECRET: ${TOKEN_SECRET}
       FRONTEND_SERVER: ${FRONTEND_SERVER}
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka:8761/eureka/
     container_name: gateway-server
     networks:
       - kitcha_network
@@ -100,9 +103,9 @@ services:
     restart: on-failure
 
   auth:
-    image: wdd1016/auth
+    image: r12dh16/auth  # 이미지 이름을 자신의 계정으로 변경
     build:
-      context: https://github.com/Team4-Kitcha/Kitcha-Authentication.git
+      context: https://github.com/LGCoreNova/Kitcha-Authentication.git#feat-cloudbus
     environment:
       MYSQL_DATABASE: ${MYSQL_DATABASE}
       MYSQL_USER: ${MYSQL_USER}
@@ -131,9 +134,9 @@ services:
     restart: on-failure
 
   article:
-    image: wdd1016/article
+    image: r12dh16/article  # 이미지 이름을 자신의 계정으로 변경
     build:
-      context: https://github.com/Team4-Kitcha/Kitcha-Article.git
+      context: https://github.com/LGCoreNova/Kitcha-Article.git#feat-cloudbus
     environment:
       NAVER_CLIENT_ID: ${NAVER_CLIENT_ID}
       NAVER_CLIENT_SECRET: ${NAVER_CLIENT_SECRET}
@@ -153,9 +156,9 @@ services:
     restart: on-failure
 
   board:
-    image: wdd1016/board
+    image: r12dh16/board  # 이미지 이름을 자신의 계정으로 변경
     build:
-      context: https://github.com/Team4-Kitcha/Kitcha-Board.git
+      context: https://github.com/LGCoreNova/Kitcha-Board.git#feat-cloudbus
     environment:
       MYSQL_DATABASE: ${MYSQL_DATABASE}
       MYSQL_USER: ${MYSQL_USER}
@@ -177,7 +180,7 @@ services:
   frontend:
     image: wdd1016/frontend
     build:
-      context: https://github.com/Team4-Kitcha/Kitcha-FE.git
+      context: https://github.com/LGCoreNova/Kitcha-FE.git
       args:
         VITE_API_BASE_URL: ${VITE_API_BASE_URL}
     container_name: frontend
